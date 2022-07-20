@@ -84,7 +84,7 @@ const clearUserForm = () => {
   document.getElementById("email").value = "";
   document.getElementById("password").value = "";
   document.getElementById("dob").value = "";
-  document.getElementById("acceptTermsAndConditions").checked = false;
+  document.getElementById("acceptTerms").checked = false;
 };
 
 const saveUserForm = (event) => {
@@ -101,15 +101,18 @@ const saveUserForm = (event) => {
     dob,
     acceptTermsAndConditions,
   };
-  if (ageValidation(dob) && passwordValidation(password)) {
-    userEntries.push(userDetails);
-    localStorage.setItem("user-entries", JSON.stringify(userEntries));
-    displayEntries();
-    clearUserForm();
-  } else {
-    errorMessage("age-error", "");
-    errorMessage("password-error", "");
-  }
+
+  if (!passwordValidation(password)) return;
+  errorMessage("password-error", "");
+
+  if (!ageValidation(dob)) return;
+  errorMessage("age-error", "");
+
+  userEntries.push(userDetails);
+  localStorage.setItem("user-entries", JSON.stringify(userEntries));
+  displayEntries();
+  clearUserForm();
+  alert("Saved Successfully!!");
 };
 
 let form = document.getElementById("user_form");
